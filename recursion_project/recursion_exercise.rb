@@ -88,30 +88,31 @@ end
 # p fibonacci(6)
 
 def bsearch(arr, target)
-  return nil unless arr.include?(target)
+  return nil if arr.length < 1
 
   middle_idx = arr.length / 2
-  middle_num = arr[middle_idx]
   return_idx = 0
 
-  return middle_idx if middle_num == target
+  return middle_idx if arr[middle_idx] == target
 
-  if target < middle_num
-    return_idx += bsearch(arr[0...middle_idx], target)
+  if target < arr[middle_idx]
+    index = bsearch(arr[0...middle_idx], target)
+    index.nil? ? (return nil) : return_idx += index
   else
-    return_idx = middle_idx + bsearch(arr[middle_idx + 1..-1], target) + 1
+    index = bsearch(arr[middle_idx + 1..-1], target)
+    index.nil? ? (return nil) : (return_idx = (middle_idx + index + 1))
   end
 
   return_idx
 end
 
-# p bsearch([1, 2, 3], 1) # => 0
-# p bsearch([2, 3, 4, 5], 3) # => 1
-# p bsearch([2, 4, 6, 8, 10], 6) # => 2
-# p bsearch([1, 3, 4, 5, 9], 5) # => 3
-# p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
-# p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
-# p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+p bsearch([1, 2, 3], 1)           # => 0
+p bsearch([2, 3, 4, 5], 3)        # => 1
+p bsearch([2, 4, 6, 8, 10], 6)    # => 2
+p bsearch([1, 3, 4, 5, 9], 5)     # => 3
+p bsearch([1, 2, 3, 4, 5, 6], 6)  # => 5
+p bsearch([1, 2, 3, 4, 5, 6], 0)  # => nil
+p bsearch([1, 2, 3, 4, 5, 7], 6)  # => nil
 
 # [3, 1, 2]
 def merge_sort(arr)
@@ -150,7 +151,7 @@ def subsets(arr)
 
   arr.each { |ele| all_subsets << [ele] }
 
-  (0...(arr.length-1)).each do |idx1|
+  (0...(arr.length - 1)).each do |idx1|
     # all_subsets << [arr[idx1]] unless all_subsets.include?(arr[idx1])
     (1...arr.length).each do |idx2|
       if idx2 > idx1 && !all_subsets.include?(arr[idx2])
@@ -163,10 +164,10 @@ def subsets(arr)
   all_subsets
 end
 
-p subsets([])         # => [[]]
-p subsets([1])        # => [[], [1]]
-p subsets([1, 2])     # => [[], [1], [2], [1, 2]]
-p subsets([1, 2, 3])  # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+# p subsets([])         # => [[]]
+# p subsets([1])        # => [[], [1]]
+# p subsets([1, 2])     # => [[], [1], [2], [1, 2]]
+# p subsets([1, 2, 3])  # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
 
 # def subsets2(arr)
 #   return [arr] if !arr.is_a?(Array) || arr.empty?
